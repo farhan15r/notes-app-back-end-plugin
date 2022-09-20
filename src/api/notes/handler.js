@@ -14,9 +14,11 @@ class NotesHandler {
 
   async postNoteHandler(request, h) {
     try {
-      this._validator.validateNotePayload(request.payload);
-      const { title = 'untitled', body, tags } = request.payload;
-      const { id: credentialId } = request.auth.credentials;
+      this._validator.validateNotePayload(request.payload); // validasi payload
+      const { title = 'untitled', body, tags } = request.payload; // destructuring
+      const { id: credentialId } = request.auth.credentials; // mendapatkan id yang sudah ter otentikasi
+
+      // query database
       const noteId = await this._service.addNote({
         title,
         body,
@@ -56,7 +58,7 @@ class NotesHandler {
   }
 
   async getNotesHandler(request) {
-    const { id: credentialId } = request.auth.credentials;
+    const { id: credentialId } = request.auth.credentials; // mendapatkan id yang ter otentikasi
     const notes = await this._service.getNotes(credentialId);
 
     return {
